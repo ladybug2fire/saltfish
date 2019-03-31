@@ -17,5 +17,9 @@ exports.index = function (req, res) {
 // })
 
 exports.signup = function(req, res){
-    res.render("signup", {title: '注册'});
+    res.render("signup", {title: '注册', layout: 'base' });
+}
+
+exports.login = function(req, res){
+    res.render("login", {title: '登入', layout: 'base' });
 }
