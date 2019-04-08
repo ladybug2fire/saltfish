@@ -2,13 +2,20 @@
     <img class="card-img-top" src="<%- item.picUrl%>" alt="Card image cap">
     <div class="card-body">
         <h5 class="card-title"><%- item.goodname %></h5>
+        <span class="username"><%- item.username %></span>
         <p class="card-text"><%- item.desc%></p>
+        <% if(item.status) { %>
+            <button type="button" class="btn btn-danger" disabled>已售</button>
+        <% } %>
         <a href="/detail?id=<%- item._id %>" class="btn btn-primary">去看看</a>
     </div>
 </div>
 <style>
 .card{
     margin: 5px;
+}
+.card-body .username{
+    color: #606266;
 }
 .card-img-top{
     height: 200px;

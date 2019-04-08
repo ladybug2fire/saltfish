@@ -18,7 +18,11 @@
         </div>
       </div>
       <!-- /.box-body -->
-      <button type="button" class="btn btn-danger">立即购买</button>
+      <% if(item.status) { %>
+            <button type="button" class="btn btn-danger" disabled>已售</button>
+        <% } else if(username) { %>
+            <button type="button" class="btn btn-danger" onclick="buyIt()">立即购买</button>
+      <% } %>
       <hr>
     <div class="form-group">
         <label for="review">评论区</label>
@@ -32,16 +36,31 @@
         <% })%>
     </div>
     <hr>
-    <div class="form-group">
-        <label for="review">评论</label>
-        <textarea class="form-control" id="review" placeholder="说说你的看法" name="review"></textarea>
-    </div>
-    <div class="box-footer">
-        <button type="button" onclick="submitData()" class="btn btn-primary">发布</button>
-    </div>
+    <% if(username) { %>
+        <div class="form-group">
+            <label for="review">评论</label>
+            <textarea class="form-control" id="review" placeholder="说说你的看法" name="review"></textarea>
+        </div>
+        <div class="box-footer">
+            <button type="button" onclick="submitData()" class="btn btn-primary">发布</button>
+        </div>
+    <% }%>
   </div>
   
   <script>
+      var buyIt = function(){
+        $.post('/buy',{
+            id: '<%- item._id %>',
+        }, function(res){
+            if(res.code === 200){
+                alert('购买成功')
+                window.location.reload();
+            }else{
+                alert(res.msg)
+            }
+        })
+      }
+
     var submitData = function(){
         var desc =  $('#review').val();
         if(!desc) return;

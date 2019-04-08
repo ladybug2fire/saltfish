@@ -1,5 +1,6 @@
 var Good = require("../../models/good.js");
 var Review = require("../../models/review.js");
+var Order = require("../../models/order.js");
 var User = require("../../models/user.js");
 var express = require('express')
 var router = express.Router()
@@ -13,11 +14,11 @@ router.post("/upload", upload.single('file'), function(req, res, next){
     let obj = req.file;
     let good = new Good({
         goodname : req.body.goodname,
+        username : req.session.username,
+        userid: req.session.userid,
         addTime: new Date().toLocaleString(),
         picUrl: '/img/' + obj.filename,
-        goodyear: req.body.goodyear,
-        star: req.body.star || 0,
-        desc: req.body.desc,
+        status: 0,
         price: req.body.price,
     });
     good.save(function (err, result) {
@@ -104,7 +105,6 @@ router.post('/publishreview', function(req, res){
         ['userid', 'username', 'goodname', 'goodid', 'desc']
     ), {
         addTime: new Date().toLocaleString(),
-        status: 0,
     }))
     review.save(function(err, result){
         if(err){
@@ -169,39 +169,40 @@ router.post('/signup', function(req, res){
   })
 
 router.post('/buy', function(req, res) {
-    Good.findById(req.body.id, function(err, goodUnit) {
-        Good.findByIdAndUpdate(
-          req.body.id,
-          { status: 1},
-          function(err, result) {
+    Good.findByIdAndUpdate(
+        req.body.id,
+        { status: 1},
+        function(err, result) {
             if (err) {
-              res.send("err, good", err);
+                res.json({
+                    code: 500,
+                    msg: err,
+                });
             } else {
-              let order = new Order({
-                goodid: result.goodid,
-                goodname: result.goodname,
-                price: result.price,
-                userid: result.userid,
-                username: result.username,
-                buyid: req.session.userid,
-                buyname: req.session.username,
-                addTime: new Date().toLocaleString()
-              });
-              order.save(function(err, result2) {
-                if (err) {
-                  res.json({
-                    code: 500
-                  });
-                } else {
-                  res.json({
-                    code: 200,
-                    msg: "下单成功"
-                  });
-                }
-              });
+                let order = new Order({
+                    goodid: result.goodid,
+                    goodname: result.goodname,
+                    price: result.price,
+                    userid: result.userid,
+                    username: result.username,
+                    buyid: req.session.userid,
+                    buyname: req.session.username,
+                    addTime: new Date().toLocaleString()
+                });
+                order.save(function(err, result2) {
+                    if (err) {
+                        res.json({
+                        code: 500
+                        });
+                    } else {
+                        res.json({
+                        code: 200,
+                        msg: "下单成功"
+                        });
+                    }
+                });
             }
-          }
-        );
-    })
+        }
+    );
 })
 module.exports = router;
