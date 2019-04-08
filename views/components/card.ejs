@@ -3,6 +3,7 @@
     <div class="card-body">
         <h5 class="card-title"><%- item.goodname %></h5>
         <span class="username"><%- item.username %></span>
+        <span class="card-price">¥ <%- item.price%></span>
         <p class="card-text"><%- item.desc%></p>
         <% if(item.status) { %>
             <button type="button" class="btn btn-danger" disabled>已售</button>
@@ -13,6 +14,10 @@
 <style>
 .card{
     margin: 5px;
+}
+.card-price{
+    color: red;
+    font-weight: bold;
 }
 .card-body .username{
     color: #606266;
