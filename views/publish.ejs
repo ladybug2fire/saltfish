@@ -1,0 +1,65 @@
+<div class="box box-primary">
+    <div class="box-header with-border">
+      <h3 class="box-title">发布商品</h3>
+    </div>
+    <!-- /.box-header -->
+    <!-- form start -->
+    <form role="form" id="goodForm" action="/admin/good/upload" method="POST" enctype="multipart/form-data">
+      <div class="box-body">
+        <div class="form-group">
+          <label for="goodname">商品名</label>
+          <input type="text" class="form-control" id="goodname" placeholder="商品名" name="goodname">
+        </div>
+        <div class="form-group">
+          <label for="price">价格</label>
+          <input type="text" class="form-control" id="price" placeholder="票价" name="price">
+        </div>
+        <div class="form-group">
+          <label for="desc">简介</label>
+          <textarea class="form-control" id="desc" placeholder="简介" name="desc"></textarea>
+        </div>
+        <div class="form-group">
+          <label for="goodpost">上传物品图片</label>
+          <input type="file" id="goodpost" name="file">
+          <p class="help-block"></p>
+        </div>
+      </div>
+      <!-- /.box-body -->
+  
+      <div class="box-footer">
+        <button type="button" onclick="submitData()" class="btn btn-primary">发布</button>
+      </div>
+    </form>
+  </div>
+  
+  <script>
+    var submitData = function () {
+      var data = new FormData($('#goodForm')[0]);
+      $.ajax(
+        {
+          type: "POST",
+          dataType: "json",
+          url: "/upload",
+          contentType: false,
+          processData: false,
+          data,
+          success: function (result) {
+            if (result.code == 200) {
+              setTimeout(()=>{
+                window.location.href = "/"
+              }, 1000)
+            }
+          },
+          error: function () {
+            alert("异常！");
+          }
+        })
+    }
+  </script>
+
+  <style>
+  .box{
+      width: 40vw;
+      margin: 20px;
+  }
+  </style>

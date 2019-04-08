@@ -57,16 +57,6 @@ exports.order = function(req, res) {
   res.render("order", { title: "选座", username: req.session.username || '' });
 };
 
-exports.detail = function(req, res) {
-  Good.findById(req.query.id, function(err, result) {
-    if (err) {
-      res.send("err", err);
-    } else {
-      res.render("detail", { title: "详情", good: result, username: req.session.username || '' });
-    }
-  });
-};
-
 exports.getSold = function(req, res){
   Good.findById(req.query.id, function(err, goodUnit) {
      res.json({
@@ -144,4 +134,5 @@ exports.search = function(req, res) {
     res.render("goodlist", { title: "商品列表", list: result || [], username: req.session.username || ''  });
   });
 };
+
 

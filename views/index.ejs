@@ -1,13 +1,13 @@
 <div class="card-container">
-    <% new Array(100).fill(0).forEach((e)=>{%>
-        <%- include('components/card') %>
+    <% list.forEach((e)=>{%>
+        <%- include('components/card', {item: e}) %>
     <% })%>
 </div>
 <style>
     .card-container{
         margin: 20px;
         display: flex;
-        justify-content: space-around;
+        justify-content: flex-start;
         flex-wrap: wrap;
     }
 </style>

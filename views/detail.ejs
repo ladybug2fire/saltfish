@@ -1,0 +1,96 @@
+<div class="box box-primary">
+    <div class="box-header with-border">
+      <h3 class="box-title">商品详情</h3>
+    </div>
+    <!-- /.box-header -->
+      <div class="box-body">
+        <div class="form-group">
+            <img class="good-pic" src="<%- item.picUrl %>" alt="商品图片">
+        </div>
+        <div class="form-group">
+          <label for="goodname">商品名:</label><%- item.goodname %>
+        </div>
+        <div class="form-group">
+          <label for="price">价格:</label>¥ <%- item.price %> 元
+        </div>
+        <div class="form-group">
+          <label for="desc">简介:</label><%- item.desc %>
+        </div>
+      </div>
+      <!-- /.box-body -->
+      <hr>
+    <div class="form-group">
+        <label for="review">评论区</label>
+        <% reviews.forEach((e)=>{%>
+        <div class="review-container">
+            <div class="username"><%- e.username  || "匿名用户" %></div> <div class="addtime"> <%- e.addTime %></div>
+        </div>
+        <div class="review-content">
+            <%- e.desc %>
+        </div>
+        <% })%>
+    </div>
+    <hr>
+    <div class="form-group">
+        <label for="review">评论</label>
+        <textarea class="form-control" id="review" placeholder="说说你的看法" name="review"></textarea>
+    </div>
+    <div class="box-footer">
+        <button type="button" onclick="submitData()" class="btn btn-primary">发布</button>
+    </div>
+  </div>
+  
+  <script>
+    var submitData = function(){
+        var desc =  $('#review').val();
+        if(!desc) return;
+        $.post('/publishreview',{
+            username: '<%- item.username%>' ,
+            userid: '<%- item.userid %>',
+            goodname: '<%- item.goodname %>',
+            goodid: '<%- item._id %>',
+            desc: desc,
+        }, function(res){
+            if(res.code ===200){
+                window.location.reload();
+            }else{
+                alert(res.msg)
+            }
+        })
+    }
+  </script>
+
+  <style>
+.review-content{
+    color: #303133;
+    margin: 5px;
+    font-size: 12px;
+}
+.review-content:not(:last-of-type){
+    border-bottom: 1px dashed #909399;
+}
+.review-container{
+    display: flex;
+    justify-content: space-between;
+}
+.username{
+    color: #606266;
+    font-size: 14px;
+}
+.addtime{
+    color: #909399;
+    font-size: 10px;
+}
+
+  .box{
+      width: 40vw;
+      margin: 20px;
+  }
+  .box label{
+      font-weight: bold;
+      margin-right: 1rem;
+  }
+  .good-pic{
+      width: 200px;
+  }
+  </style>
