@@ -1,8 +1,8 @@
 <%- contentFor('body') %>
-<table id="movie" class="table table-bordered table-hover">
+<table id="good" class="table table-bordered table-hover">
     <thead>
         <tr>
-            <th>电影名</th>
+            <th>商品名</th>
             <th>下单时间</th>
             <th>金额</th>
             <th>座位</th>
@@ -12,7 +12,7 @@
     <tbody>
         <% list.forEach(function(l){ %>
         <tr>
-            <td><%- l.moviename %></td>
+            <td><%- l.goodname %></td>
             <td><%- l.addTime %></td>
             <td><%- l.price %></td>
             <td><%- l.seats %></td>
@@ -27,7 +27,7 @@
 </style>
 <script>
     var deleteMovie = function (id) {
-        $.get('/admin/movie/delete', {
+        $.get('/admin/good/delete', {
             id,
         }, function (res) {
             if (res.code === 200) {
@@ -38,6 +38,6 @@
         })
     }
     $(function () {
-        $('#movie').DataTable()
+        $('#good').DataTable()
     })
 </script>

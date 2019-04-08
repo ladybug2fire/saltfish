@@ -1,18 +1,18 @@
 <div class="box box-primary">
   <div class="box-header with-border">
-    <h3 class="box-title">发布影片</h3>
+    <h3 class="box-title">发布商品</h3>
   </div>
   <!-- /.box-header -->
   <!-- form start -->
-  <form role="form" id="movieForm" action="/admin/movie/upload" method="POST" enctype="multipart/form-data">
+  <form role="form" id="goodForm" action="/admin/good/upload" method="POST" enctype="multipart/form-data">
     <div class="box-body">
       <div class="form-group">
-        <label for="moviename">电影名</label>
-        <input type="text" class="form-control" id="moviename" placeholder="电影名" name="moviename">
+        <label for="goodname">商品名</label>
+        <input type="text" class="form-control" id="goodname" placeholder="商品名" name="goodname">
       </div>
       <div class="form-group">
-        <label for="movieyear">上映年份</label>
-        <input type="text" class="form-control" id="movieyear" placeholder="上映年份" name="movieyear">
+        <label for="goodyear">上映年份</label>
+        <input type="text" class="form-control" id="goodyear" placeholder="上映年份" name="goodyear">
       </div>
       <div class="form-group">
         <label for="price">票价</label>
@@ -27,8 +27,8 @@
         <textarea class="form-control" id="desc" placeholder="简介" name="desc"></textarea>
       </div>
       <div class="form-group">
-        <label for="moviepost">上传海报</label>
-        <input type="file" id="moviepost" name="file">
+        <label for="goodpost">上传海报</label>
+        <input type="file" id="goodpost" name="file">
         <p class="help-block"></p>
       </div>
     </div>
@@ -42,19 +42,19 @@
 
 <script>
   var submitData = function () {
-    var data = new FormData($('#movieForm')[0]);
+    var data = new FormData($('#goodForm')[0]);
     $.ajax(
       {
         type: "POST",
         dataType: "json",
-        url: "/admin/movie/upload",
+        url: "/admin/good/upload",
         contentType: false,
         processData: false,
         data,
         success: function (result) {
           if (result.code == 200) {
             setTimeout(()=>{
-              window.location.href = "/admin/movie/"
+              window.location.href = "/admin/good/"
             }, 1000)
           }
         },

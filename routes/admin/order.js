@@ -28,7 +28,7 @@ router.get('/list', function(req, res){
 })
 
 router.get('/new', function(req, res){
-    res.render("admin/order/new", {title: '发布影片', layout: 'admin/layout'})
+    res.render("admin/order/new", {title: '发布', layout: 'admin/layout'})
 })
 
 router.get('/delete', function(req, res){

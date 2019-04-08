@@ -1,4 +1,4 @@
-var Movie = require("../../models/movie.js");
+var Movie = require("../../models/good.js");
 var express = require('express')
 var router = express.Router()
 var fs = require('fs');
@@ -8,16 +8,16 @@ var upload = multer({ dest: 'uploads/img/'});
 
 router.post("/upload", upload.single('file'), function(req, res, next){
     let obj = req.file;
-    let movie = new Movie({
-        moviename : req.body.moviename,
+    let good = new Movie({
+        goodname : req.body.goodname,
         addTime: new Date().toLocaleString(),
         picUrl: '/img/' + obj.filename,
-        movieyear: req.body.movieyear,
+        goodyear: req.body.goodyear,
         star: req.body.star || 0,
         desc: req.body.desc,
         price: req.body.price,
     });
-    movie.save(function (err, result) {
+    good.save(function (err, result) {
         if (err) {
             console.log("Error:" + err);
             res.json({
@@ -37,7 +37,7 @@ router.post("/upload", upload.single('file'), function(req, res, next){
 
 router.get('/', function(req, res){
     Movie.find().sort({"_id":-1}).exec(function(err, docs){
-        res.render("admin/movie/list", {title: '影片', layout: 'admin/layout', list: docs });
+        res.render("admin/good/list", {title: '商品', layout: 'admin/layout', list: docs });
     })
 });
 
@@ -58,7 +58,7 @@ router.get('/list', function(req, res){
 })
 
 router.get('/new', function(req, res){
-    res.render("admin/movie/new", {title: '发布影片', layout: 'admin/layout'})
+    res.render("admin/good/new", {title: '发布商品', layout: 'admin/layout'})
 })
 
 router.get('/delete', function(req, res){
@@ -78,13 +78,13 @@ router.get('/delete', function(req, res){
 });
 
 router.get('/get', function(req, res){
-    movie.findById(req.query.id, function(err, result){
+    good.findById(req.query.id, function(err, result){
         res.json(result)
     })
 });
 
 router.get('/dashboard', function(req, res){
-    res.render("admin/chart", {title: '电影账目表', layout: 'admin/layout'});
+    res.render("admin/chart", {title: '商品账目表', layout: 'admin/layout'});
 })
 
 module.exports = router;

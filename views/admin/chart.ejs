@@ -23,11 +23,11 @@
 <script src="../../bower_components/chart.js/Chart.js"></script>
 <script>
 $(function(){
-    $.get('/admin/movie/list', function(res){
+    $.get('/admin/good/list', function(res){
       if(res.code != 200){alert('数据错误');return;}
       var list = res.data;
       var areaChartData = {
-        labels  : list.map(e=>e.moviename),
+        labels  : list.map(e=>e.goodname),
         datasets: [
           {
             label               : '销量',
