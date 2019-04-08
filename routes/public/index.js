@@ -18,6 +18,7 @@ router.post("/upload", upload.single('file'), function(req, res, next){
         userid: req.session.userid,
         addTime: new Date().toLocaleString(),
         picUrl: '/img/' + obj.filename,
+        desc: req.body.desc,
         status: 0,
         price: req.body.price,
     });
@@ -42,10 +43,12 @@ router.get('/detail', function(req, res) {
     Good.findById(req.query.id, function(err, result) {
       if (err) {
         res.send("err", err);
-      } else {
+      } else if(result){
         Review.find({goodid: result._id}, function(err, reviews){
             res.render("detail", { title: "详情", item: result, reviews: reviews,username: req.session.username || '' , userid: req.session.userid || ''});
         })
+      }else{
+        res.render("detail", { title: "详情", item: null, reviews: [],username: req.session.username || '' , userid: req.session.userid || ''});
       }
     });
 })
