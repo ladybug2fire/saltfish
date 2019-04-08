@@ -1,5 +1,6 @@
 var Good = require("../../models/good.js");
 var Review = require("../../models/review.js");
+var User = require("../../models/user.js");
 var express = require('express')
 var router = express.Router()
 var fs = require('fs');
@@ -102,7 +103,8 @@ router.post('/publishreview', function(req, res){
     var review = new Review(_.assign(_.pick(req.body,
         ['userid', 'username', 'goodname', 'goodid', 'desc']
     ), {
-        addTime: new Date().toLocaleString()
+        addTime: new Date().toLocaleString(),
+        status: 0,
     }))
     review.save(function(err, result){
         if(err){
@@ -120,10 +122,86 @@ router.post('/publishreview', function(req, res){
 })
 
 router.get('/login', function(req, res){
-    res.render('login', {title: '登录', layout: 'base'})
+    res.render('login', {title: '登录', username: req.session.username || ''})
+})
+
+router.post('/login', function(req, res) {
+    User.findOne({username: req.body.username},function(err, result){
+      if(result && result.userpwd == req.body.password){
+        req.session.username = req.body.username;
+        req.session.userid = result._id;
+        res.redirect('/');
+      }else{
+        res.render('error', {error:'账号或密码错误', title: '发生错误', username: ''})
+      }
+    })
 })
 
 router.get('/signup', function(req, res){
-    res.render('signup', {title: '注册', layout: 'base'})
+    res.render('signup', {title: '注册',username: req.session.username || ''})
+})
+
+router.post('/signup', function(req, res){
+    User.find({ username: req.body.username}, function(err, result){
+        if(result.length){
+            res.render('error', {error:'用户名已经被占用', title: '发生错误', username: ''})
+        }else{
+            console.log(req.body)
+            var user = new User({
+                username : req.body.username,
+                userpwd: req.body.password,
+                phone: req.body.phone,
+            });
+            user.save(function (err, result) {
+                if (err) {
+                    console.log("Error:" + err);
+                    res.json({
+                        code: 500,
+                        msg: err,
+                    })
+                }
+                else {
+                  res.redirect('/');
+                }
+            });
+        }
+    })
+  })
+
+router.post('/buy', function(req, res) {
+    Good.findById(req.body.id, function(err, goodUnit) {
+        Good.findByIdAndUpdate(
+          req.body.id,
+          { status: 1},
+          function(err, result) {
+            if (err) {
+              res.send("err, good", err);
+            } else {
+              let order = new Order({
+                goodid: result.goodid,
+                goodname: result.goodname,
+                price: result.price,
+                userid: result.userid,
+                username: result.username,
+                buyid: req.session.userid,
+                buyname: req.session.username,
+                addTime: new Date().toLocaleString()
+              });
+              order.save(function(err, result2) {
+                if (err) {
+                  res.json({
+                    code: 500
+                  });
+                } else {
+                  res.json({
+                    code: 200,
+                    msg: "下单成功"
+                  });
+                }
+              });
+            }
+          }
+        );
+    })
 })
 module.exports = router;

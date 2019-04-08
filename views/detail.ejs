@@ -18,6 +18,7 @@
         </div>
       </div>
       <!-- /.box-body -->
+      <button type="button" class="btn btn-danger">立即购买</button>
       <hr>
     <div class="form-group">
         <label for="review">评论区</label>
@@ -45,8 +46,8 @@
         var desc =  $('#review').val();
         if(!desc) return;
         $.post('/publishreview',{
-            username: '<%- item.username%>' ,
-            userid: '<%- item.userid %>',
+            username: '<%- username%>' ,
+            userid: '<%- userid %>',
             goodname: '<%- item.goodname %>',
             goodid: '<%- item._id %>',
             desc: desc,

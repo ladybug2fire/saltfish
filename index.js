@@ -30,24 +30,15 @@ app.set('layout extractStyles', true)
  * set Routes
  */
 app.get('/', routes.index);
-app.post('/signup', routes.signup);
 
-app.post('/login', routes.doLogin);
-app.post('/search', routes.search);
-
-app.get('/order', routes.order);
 app.get('/orderlist', routes.orderlist);
-
-app.post('/buy', routes.buy);
-app.get('/goodlist', routes.goodlist);
-app.get('/getSold', routes.getSold);
 
 
 app.use('/', require('./routes/public/index'))
 app.get('/admin', require('./routes/admin/index').index);
 app.get('/admin/login', require('./routes/admin/login').login);
 app.get('/admin/register', require('./routes/admin/login').register);
-app.get('/admin/register', require('./routes/admin/login').register);
+
 app.use('/admin/user', require('./routes/admin/user'))
 app.use('/admin/good', require('./routes/admin/good'))
 app.use('/admin/order', require('./routes/admin/order'))

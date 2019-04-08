@@ -8,6 +8,7 @@ var GoodSchema = new Schema({
     picUrl: { type: String },
     addTime: {type: String},
     price: Number,
+    status: Number,
     desc: {type: String},
 });
 
