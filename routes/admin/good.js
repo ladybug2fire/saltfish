@@ -1,4 +1,4 @@
-var Movie = require("../../models/good.js");
+var Good = require("../../models/good.js");
 var express = require('express')
 var router = express.Router()
 var fs = require('fs');
@@ -8,7 +8,7 @@ var upload = multer({ dest: 'uploads/img/'});
 
 router.post("/upload", upload.single('file'), function(req, res, next){
     let obj = req.file;
-    let good = new Movie({
+    let good = new Good({
         goodname : req.body.goodname,
         addTime: new Date().toLocaleString(),
         picUrl: '/img/' + obj.filename,
@@ -36,13 +36,13 @@ router.post("/upload", upload.single('file'), function(req, res, next){
 
 
 router.get('/', function(req, res){
-    Movie.find().sort({"_id":-1}).exec(function(err, docs){
+    Good.find().sort({"_id":-1}).exec(function(err, docs){
         res.render("admin/good/list", {title: '商品', layout: 'admin/layout', list: docs });
     })
 });
 
 router.get('/list', function(req, res){
-    Movie.find(function(err, docs){
+    Good.find(function(err, docs){
         if(err){
             res.json({
                 code: 500,
@@ -62,7 +62,7 @@ router.get('/new', function(req, res){
 })
 
 router.get('/delete', function(req, res){
-    Movie.findByIdAndRemove(req.query.id,function(err, result){
+    Good.findByIdAndRemove(req.query.id,function(err, result){
         if(err){
             res.json({
                 code: 500,

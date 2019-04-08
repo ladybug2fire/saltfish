@@ -1,11 +1,11 @@
-var Movie = require("../models/good.js");
+var Good = require("../models/good.js");
 var Order = require("../models/order.js");
 var User = require("../models/user.js");
 var _ = require("lodash");
 
 exports.index = function(req, res) {
   console.log(req.session.username)
-  Movie.find()
+  Good.find()
     .sort({ _id: -1 })
     .exec(function(err, docs) {
       if (err) res.send("出错了");
@@ -58,7 +58,7 @@ exports.order = function(req, res) {
 };
 
 exports.detail = function(req, res) {
-  Movie.findById(req.query.id, function(err, result) {
+  Good.findById(req.query.id, function(err, result) {
     if (err) {
       res.send("err", err);
     } else {
@@ -68,7 +68,7 @@ exports.detail = function(req, res) {
 };
 
 exports.getSold = function(req, res){
-  Movie.findById(req.query.id, function(err, goodUnit) {
+  Good.findById(req.query.id, function(err, goodUnit) {
      res.json({
        code: 200,
        data: goodUnit.sales
@@ -85,9 +85,9 @@ exports.buy = function(req, res) {
     code:500,
     msg: '没有选座位'
   })
-  Movie.findById(req.body.id, function(err, goodUnit) {
+  Good.findById(req.body.id, function(err, goodUnit) {
     if (_.isEmpty(_.intersection(goodUnit.sales, seats))) {
-      Movie.findByIdAndUpdate(
+      Good.findByIdAndUpdate(
         req.body.id,
         { $addToSet: { sales: { $each: seats } } },
         function(err, result) {
@@ -134,13 +134,13 @@ exports.orderlist = function(req, res) {
 };
 
 exports.goodlist = function(req, res) {
-  Movie.find(function(err, result) {
+  Good.find(function(err, result) {
     res.render("goodlist", { title: "商品列表", list: result, username: req.session.username || ''  });
   });
 };
 
 exports.search = function(req, res) {
-  Movie.find({goodname: req.body.goodname},function(err, result) {
+  Good.find({goodname: req.body.goodname},function(err, result) {
     res.render("goodlist", { title: "商品列表", list: result || [], username: req.session.username || ''  });
   });
 };
