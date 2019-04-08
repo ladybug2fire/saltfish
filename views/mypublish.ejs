@@ -1,0 +1,38 @@
+<table class="orderlist">
+  <thead>
+    <tr>
+      <th>商品名</th>
+      <th>图片</th>
+      <th>发布时间</th>
+      <th>金额/元</th>
+    </tr>
+  </thead>
+
+  <tbody>
+    <% list.forEach(function(l){ %>
+    <tr>
+      <td><a href="/detail?id=<%-l._id %>"><%- l.goodname %></a></td>
+      <td><img class="snap-shot" src="<%- l.picUrl %>" alt="" /></td>
+      <td><%- l.addTime %></td>
+      <td><%- l.price %></td>
+    </tr>
+    <% }); %>
+  </tbody>
+</table>
+
+<style>
+  .orderlist td,
+  th {
+    padding: 5px 10px;
+    border: 1px solid whitesmoke;
+  }
+  .orderlist {
+    padding: 5px 10px;
+    margin: 10px;
+  }
+  .orderlist .snap-shot{
+    width: 100px;
+    height: 100px;
+    object-fit: cover;
+  }
+</style>

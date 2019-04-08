@@ -31,8 +31,6 @@ app.set('layout extractStyles', true)
  */
 app.get('/', routes.index);
 
-app.get('/orderlist', routes.orderlist);
-
 
 app.use('/', require('./routes/public/index'))
 app.get('/admin', require('./routes/admin/index').index);

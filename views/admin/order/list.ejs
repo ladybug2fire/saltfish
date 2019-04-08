@@ -4,8 +4,9 @@
         <tr>
             <th>商品名</th>
             <th>下单时间</th>
+            <th>购买用户</th>
+            <th>发布用户</th>
             <th>金额</th>
-            <th>座位</th>
         </tr>
     </thead>
     
@@ -14,8 +15,9 @@
         <tr>
             <td><%- l.goodname %></td>
             <td><%- l.addTime %></td>
+            <td><%- l.buyname %></td>
+            <td><%- l.username %></td>
             <td><%- l.price %></td>
-            <td><%- l.seats %></td>
         </tr>
         <% }); %>
     </tbody>

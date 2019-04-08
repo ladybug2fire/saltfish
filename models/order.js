@@ -4,6 +4,7 @@ var mongoose = require('../config/db'),
 var OrderSchema = new Schema({
     goodid: String,
     goodname: String,
+    picUrl: String,
     buyname: String,
     buyid: String,
     price: Number,

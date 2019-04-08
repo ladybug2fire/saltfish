@@ -182,6 +182,7 @@ router.post('/buy', function(req, res) {
                 let order = new Order({
                     goodid: result.goodid,
                     goodname: result.goodname,
+                    picUrl: result.picUrl,
                     price: result.price,
                     userid: result.userid,
                     username: result.username,
@@ -204,5 +205,23 @@ router.post('/buy', function(req, res) {
             }
         }
     );
+})
+
+router.get('/orderlist', function(req, res) {
+    Order.find({buyid: req.session.userid}).sort({"_id":-1}).exec(function(err, result) {
+      res.render("orderlist", { title: "我的订单", list: result, username: req.session.username || '' });
+    });
+})
+
+router.get('/mypublish', function(req, res) {
+    Good.find({userid: req.session.userid}).sort({"_id":-1}).exec(function(err, result) {
+      res.render("mypublish", { title: "我的发布", list: result, username: req.session.username || '' });
+    });
+})
+
+router.get('/logout', function(req, res) {
+    req.session.username = '';
+    req.session.userid = '';
+    res.redirect('/')
 })
 module.exports = router;
