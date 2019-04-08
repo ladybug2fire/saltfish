@@ -1,0 +1,61 @@
+<%- contentFor('body') %>
+
+<div class="box box-primary">
+    <div class="box-header with-border">
+      <h3 class="box-title">创建新用户</h3>
+    </div>
+    <!-- /.box-header -->
+    <!-- form start -->
+    <form role="form" id="userForm" action="/admin/user/new" method="POST">
+      <div class="box-body">
+        <div class="form-group">
+          <label for="username">用户名</label>
+          <input type="text" class="form-control"
+          value="战狼" id="username" name="username" placeholder="用户名">
+        </div>
+        <div class="form-group">
+          <label for="password">密码</label>
+          <input type="password" class="form-control" 
+          value ='1231' name="password" id="password" placeholder="密码">
+        </div>
+        <div class="form-group">
+          <label for="phone">手机号</label>
+          <input type="phone" class="form-control" 
+          value ='1231' name="phone" id="phone" placeholder="手机号">
+        </div>
+      </div>
+      <!-- /.box-body -->
+
+      <div class="box-footer">
+        <button type="button" onclick="submitData()" class="btn btn-primary">创建</button>
+      </div>
+    </form>
+  </div>
+
+  <script>
+      var submitData = function () {
+        $.ajax(
+          {
+            type: "POST",
+            dataType: "json",
+            url: "/admin/user/new",
+            contentType: "application/json",
+            processData: false,
+            data: JSON.stringify({
+              username: $('#username').val(),
+              password: $('#password').val(),
+              phone: $('#phone').val(),
+            }),
+            success: function (result) {
+              if (result.code == 200) {
+                setTimeout(()=>{
+                  window.location.href = "/admin/user/"
+                }, 1000)
+              }
+            },
+            error: function () {
+              alert("异常！");
+            }
+          })
+      }
+    </script>

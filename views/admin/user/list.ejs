@@ -1,0 +1,45 @@
+<%- contentFor('body') %>
+
+<a href="/admin/user/new"><button class="btn btn-primary btn-sm">新增用户</button></a>
+
+<table id="user" class="table table-bordered table-hover">
+    <thead>
+        <tr>
+            <th>用户名</th>
+            <th>手机号</th>
+            <th>操作</th>
+        </tr>
+    </thead>
+    <tbody>
+        <% list.forEach(function(l){ %>
+            <tr>
+                <td><%- l.username %></td>
+                <td><%- l.phone %></td>
+                <td>
+                    <a style="cursor:pointer" href="">编辑</a>&nbsp;&nbsp;&nbsp;
+                    <a style="cursor:pointer" onclick="deleteUser('<%- l._id %>')">删除</a>
+                </td>
+            </tr>
+        <% }); %>
+    </tbody>
+</table>
+
+<script>
+    $(function () {
+        $('#user').DataTable()
+    })
+    var deleteUser = function (id) {
+        $.get('/admin/user/delete', {
+            id,
+        }, function (res) {
+            if (res.code === 200) {
+                alert('删除成果');
+                window.location.reload();
+            }
+            console.log(res);
+        })
+    }
+    $(function () {
+        $('#movie').DataTable()
+    })
+</script>

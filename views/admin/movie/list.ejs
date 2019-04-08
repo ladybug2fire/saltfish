@@ -1,0 +1,53 @@
+<%- contentFor('body') %>
+
+<a href="/admin/movie/new"><button class="btn btn-primary btn-sm">发布影片</button></a>
+
+<table id="movie" class="table table-bordered table-hover">
+    <thead>
+        <tr>
+            <th>海报</th>
+            <th>电影名</th>
+            <th>上架时间</th>
+            <th>上映年份</th>
+            <th>评分</th>
+            <th>票价</th>
+            <th>已售</th>
+            <th>操作</th>
+        </tr>
+    </thead>
+    <tbody>
+        <% list.forEach(function(l){ %>
+        <tr>
+            <td><img class="snap-shot" src="<%- l.picUrl %>" alt=""></td>
+            <td><%- l.moviename %></td>
+            <td><%- l.addTime %></td>
+            <td><%- l.movieyear %></td>
+            <td><%- l.star %></td>
+            <td><%- l.price %></td>
+            <td><%- l.sales.length %>/84</td>
+            <td><a style="cursor:pointer" onclick="deleteMovie('<%- l._id %>')">删除</a></td>
+        </tr>
+        <% }); %>
+    </tbody>
+</table>
+<style>
+    .snap-shot {
+        width: 100px;
+    }
+</style>
+<script>
+    var deleteMovie = function (id) {
+        $.get('/admin/movie/delete', {
+            id,
+        }, function (res) {
+            if (res.code === 200) {
+                alert('删除成果');
+                window.location.reload();
+            }
+            console.log(res);
+        })
+    }
+    $(function () {
+        $('#movie').DataTable()
+    })
+</script>
