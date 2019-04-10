@@ -36,6 +36,7 @@ app.use('/', require('./routes/public/index'))
 app.get('/admin', require('./routes/admin/index').index);
 app.get('/admin/login', require('./routes/admin/login').login);
 app.post('/admin/login', require('./routes/admin/login').dologin);
+app.get('/admin/logout', require('./routes/admin/login').adminlogout);
 
 app.use('/admin/user', require('./routes/admin/user'))
 app.use('/admin/good', require('./routes/admin/good'))
