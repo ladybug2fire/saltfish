@@ -1,3 +1,7 @@
 exports.index = function(req, res){
-    res.redirect('/admin/order');
+    if(req.session.admin){
+        res.redirect('/admin/order');
+    }else{
+        res.redirect('/admin/login');
+    }
 }
